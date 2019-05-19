@@ -21,16 +21,8 @@ Plug 'severin-lemaignan/vim-minimap'
 Plug 'djoshea/vim-autoread'
 Plug 'slim-template/vim-slim'
 Plug 'ryanoasis/vim-devicons'
-
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
-
+Plug 'qpkorr/vim-bufkill'
+Plug 'w0rp/ale'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
@@ -39,10 +31,9 @@ call plug#end()
 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-
-" SuperTab like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <expr><TAB> <Plug>(neosnippet_expand_or_jump)
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " For conceal markers.
 if has('conceal')
@@ -134,85 +125,10 @@ let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
 
 " Start Minimap
-autocmd VimEnter * Minimap
+" autocmd VimEnter * Minimap
 
-" Delete buffer while keeping window layout (don't close buffer's windows).
-" Version 2008-11-18 from http://vim.wikia.com/wiki/VimTip165
-if v:version < 700 || exists('loaded_bclose') || &cp
-finish
-endif
-let loaded_bclose = 1
-if !exists('bclose_multiple')
-let bclose_multiple = 1
-endif
-
-" Display an error message.
-function! s:Warn(msg)
-  echohl ErrorMsg
-  echomsg a:msg
-  echohl NONE
-endfunction
-
-" Close buffer properly with NERDtree
-" http://stackoverflow.com/questions/1864394/vim-and-nerd-tree-closing-a-buffer-properly
-"
-" Command ':Bclose' executes ':bd' to delete buffer in current window.
-" The window will show the alternate buffer (Ctrl-^) if it exists,
-" or the previous buffer (:bp), or a blank buffer if no previous.
-" Command ':Bclose!' is the same, but executes ':bd!' (discard changes).
-" An optional argument can specify which buffer to close (name or number).
-function! s:Bclose(bang, buffer)
-if empty(a:buffer)
-let btarget = bufnr('%')
-elseif a:buffer =~ '^\d\+$'
-let btarget = bufnr(str2nr(a:buffer))
-else
-let btarget = bufnr(a:buffer)
-endif
-if btarget < 0
-call s:Warn('No matching buffer for '.a:buffer)
-return
-endif
-if empty(a:bang) && getbufvar(btarget, '&modified')
-call s:Warn('No write since last change for buffer '.btarget.' (use :Bclose!)')
-return
-endif
-" Numbers of windows that view target buffer which we will delete.
-let wnums = filter(range(1, winnr('$')), 'winbufnr(v:val) == btarget')
-if !g:bclose_multiple && len(wnums) > 1
-call s:Warn('Buffer is in multiple windows (use ":let bclose_multiple=1")')
-return
-endif
-let wcurrent = winnr()
-for w in wnums
-execute w.'wincmd w'
-let prevbuf = bufnr('#')
-if prevbuf > 0 && buflisted(prevbuf) && prevbuf != w
-buffer #
-else
-bprevious
-endif
-if btarget == bufnr('%')
-" Numbers of listed buffers which are not the target to be deleted.
-let blisted = filter(range(1, bufnr('$')), 'buflisted(v:val) && v:val !=
-btarget')
-" Listed, not target, and not displayed.
-let bhidden = filter(copy(blisted), 'bufwinnr(v:val) < 0')
-" Take the first buffer, if any (could be more intelligent).
-let bjump = (bhidden + blisted + [-1])[0]
-if bjump > 0
-execute 'buffer '.bjump
-else
-execute 'enew'.a:bang
-endif
-endif
-endfor
-execute 'bdelete'.a:bang.' '.btarget
-execute wcurrent.'wincmd w'
-endfunction
-command! -bang -complete=buffer -nargs=? Bclose call <SID>Bclose('<bang>','<args>')
-nnoremap <silent> <Leader>bd :Bclose<CR>
-nnoremap <silent> <Leader>bD :Bclose!<CR>
+" Close current buffer
+map <C-x> :BD<cr>
 
 " Chain vimgrep and copen
 augroup qf
@@ -242,9 +158,6 @@ inoremap <silent> <C-S>  <C-O>:update<CR>
 
 " Comment block
 vnoremap <silent> <C-k> :Commentary<cr>
-
-" Close current buffer
-noremap <silent> <C-q> :Bclose!<CR>
 
 " Toggle Nerdtree
 noremap <silent> <C-f> ::NERDTreeToggle<CR>
@@ -304,6 +217,9 @@ if(argc() == 0)
   au VimEnter * nested :call LoadSession()
 endif
 
+autocmd VimEnter * :silent! bufdo e
+set sessionoptions-=options  " Don't save options
+
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | :call NERDTreeToggleInCurDir() | endif
@@ -312,3 +228,14 @@ let NERDTreeDirArrows=1
 let NERDTreeShowHidden=1
 
 set fillchars+=vert:\|
+set shell=bash
+autocmd BufEnter * silent! lcd %:p:h
+let g:airline#extensions#ale#enabled = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_sign_column_always = 1
+
+" Set autoindent
+set ai
+set si
