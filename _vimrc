@@ -25,6 +25,8 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'w0rp/ale'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ctrlpvim/ctrlp.vim'
 
 call plug#end()
 """""""""""""""""""""""""""
@@ -102,8 +104,19 @@ set termguicolors
 colorscheme quantum
 set guifont=FuraCode\ Nerd\ Font:h9
 
+" Syntastic
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list=1
+"let g:syntastic_auto_loc_list=1
+"let g:syntastic_check_on_open=1
+"let g:syntastic_check_on_wq=0
+
 " Airline
 set laststatus=2
+let g:statline_syntastic=0
 let g:airline#extensions#tabline#enabled=1
 let g:airline_theme='bubblegum'
 let g:airline_powerline_fonts=1
@@ -113,22 +126,6 @@ let g:airline#extensions#branch#enabled=1
 let g:indentLine_enabled=1
 let g:indentLine_color_term=235
 let g:indentLine_char='┆'
-
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
-
-" Start Minimap
-" autocmd VimEnter * Minimap
-
-" Close current buffer
-map <C-x> :BD<cr>
 
 " Chain vimgrep and copen
 augroup qf
@@ -151,51 +148,11 @@ let &t_EI ="\e[1 q" "EI = NORMAL mode (ELSE)
 :nnoremap <C-p> :bnext<CR>
 :nnoremap <C-o> :bprevious<CR>
 
-" Map Control S for save
-noremap <silent> <C-S> :update<CR>
-vnoremap <silent> <C-S> <C-C>:update<CR>
-inoremap <silent> <C-S>  <C-O>:update<CR>
-
-" Comment block
-vnoremap <silent> <C-k> :Commentary<cr>
-
 " Toggle Nerdtree
 noremap <silent> <C-f> ::NERDTreeToggle<CR>
 
 " Select all
 noremap <C-a> <esc>ggVG<CR>
-
-" Window navigation
-noremap <C-j> <C-W>j
-noremap <C-k> <C-W>k
-noremap <C-h> <C-W>h
-noremap <C-l> <C-W>l
-
-" Alias for esc
-inoremap kj <Esc>
-noremap kj <Esc>
-noremap kl A<Esc>
-inoremap kl <Esc>A
-
-function! MakeSession()
-  let b:sessiondir = $HOME
-  if (filewritable(b:sessiondir) != 2)
-    exe 'silent !mkdir -p ' b:sessiondir
-    redraw!
-  endif
-  let b:filename = b:sessiondir . '/session.vim'
-  exe "mksession! " . b:filename
-endfunction
-
-function! LoadSession()
-  let b:sessiondir = $HOME
-  let b:sessionfile = b:sessiondir . "/session.vim"
-  if (filereadable(b:sessionfile))
-    exe 'source ' b:sessionfile
-  else
-    echo "No session loaded."
-  endif
-endfunction
 
 function! NERDTreeToggleInCurDir()
   " If NERDTree is open in the current buffer
@@ -212,10 +169,6 @@ endfunction
 
 " Adding automation for when entering or leaving Vim
 au VimLeave * NERDTreeClose
-au VimLeave * :call MakeSession()
-if(argc() == 0)
-  au VimEnter * nested :call LoadSession()
-endif
 
 autocmd VimEnter * :silent! bufdo e
 set sessionoptions-=options  " Don't save options
@@ -230,12 +183,95 @@ let NERDTreeShowHidden=1
 set fillchars+=vert:\|
 set shell=bash
 autocmd BufEnter * silent! lcd %:p:h
-let g:airline#extensions#ale#enabled = 1
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_sign_column_always = 1
+let g:airline#extensions#ale#enabled=1
+let g:ale_echo_msg_error_str='E'
+let g:ale_echo_msg_warning_str='W'
+let g:ale_echo_msg_format='[%linter%] %s [%severity%]'
+let g:ale_sign_column_always=1
+
+let g:webdevicons_enable=1
+let g:webdevicons_enable_nerdtree=1
+let g:webdevicons_enable_airline_tabline=1
+let g:webdevicons_enable_airline_statusline=1
+let g:WebDevIconsUnicodeDecorateFileNodes=1
+let g:WebDevIconsNerdTreeGitPluginForceVAlign=1
+let g:NERDTreeHighlightFolders=1
+let g:NERDTreeHighlightFoldersFullName=1
+
+let g:ctrlp_working_path_mode=0
 
 " Set autoindent
 set ai
 set si
+
+let g:NERDTreeChDirMode       = 2
+let g:ctrlp_working_path_mode = 'rw'
+let g:ctrlp_map = '<C-m>'
+let g:ctrlp_cmd = 'CtrlP'
+
+"----------- Searching ---------------------
+set hlsearch
+set incsearch
+
+
+" The default leder key is ','
+" Leader is used as a namespace to 
+" prevent overwrite existing mapping
+let mapleader = ','
+
+
+"----------- Custom Mapping ----------------
+
+" Copy/paste from system register
+noremap <C-y> "*y
+noremap <C-p> "*p
+noremap <C-y> "+y
+noremap <C-p> "+p
+
+" Window navigation
+noremap <C-j> <C-W>j
+noremap <C-k> <C-W>k
+noremap <C-h> <C-W>h
+noremap <C-l> <C-W>l
+
+" Move cursor 5 line to top or bottom
+nnoremap <C-j> 5j
+nnoremap <C-k> 5k
+vnoremap <C-j> 5j
+vnoremap <C-k> 5k
+
+
+" Alias for esc
+inoremap kj <Esc>
+vnoremap kj <Esc>
+inoremap kl <Esc>A
+
+" Start Minimap
+" autocmd VimEnter * Minimap
+
+" Close current buffer
+map <C-x> :BD<cr>
+
+" Map Control S for save
+noremap <silent> <C-S> :update<CR>
+vnoremap <silent> <C-S> <C-C>:update<CR>
+inoremap <silent> <C-S>  <C-O>:update<CR>
+
+" Comment block
+vnoremap <silent> <C-/> :Commentary<cr>
+nnoremap <silent> <C-/> :Commentary<cr>
+
+" Shortcut to edit vimrc
+noremap <Leader>ev :tabedit $MYVIMRC<cr>
+
+" Turn off search highlight
+noremap <Leader><space> :nohlsearch<cr>
+
+
+"------------- Auto Command -----------------
+
+"Automatically source vimrc file on save
+augroup autosourcing
+    autocmd!
+    autocmd BufWritePost _vimrc source %
+augroup END
