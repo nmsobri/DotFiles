@@ -10,19 +10,25 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-vinegar'
 Plugin 'preservim/nerdtree'
-Plugin 'kien/ctrlp.vim'
 Plugin 'preservim/nerdcommenter'
 Plugin 'wincent/terminus'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tpope/vim-fugitive'
 Plugin 'qpkorr/vim-bufkill'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" Disable help text on NERDTree
-let NERDTreeMinimalUI=1
+" NERDTree configs
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeShowHidden=1
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeStatusline = "NERDTree"
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
 
 set noeol
 
@@ -42,9 +48,7 @@ set shiftwidth=4
 set noerrorbells visualbell t_vb=
 
 " Always show tab
-set showtabline=2
-
-colorscheme desert
+set showtabline=1
 
 " Configure vim backspace to behave like normal editor
 set backspace=indent,eol,start
@@ -54,6 +58,9 @@ set number
 
 " Do not create .swp files
 set noswapfile
+
+" Keep 10 lines above/below cursor
+set scrolloff=10
 
 " Change the default <Leader> from backslash (\) to a comma (,)
 let mapleader = ','
@@ -71,7 +78,8 @@ colorscheme atom-dark
 set linespace=13
 
 " Set gui font
-set guifont=FuraCode_Nerd_Font:h9
+" set guifont=FuraCode_Nerd_Font:h15
+set guifont=CaskaydiaCove_NF:h10
 
 " Set gui options
 set guioptions-=l
@@ -84,15 +92,33 @@ set guioptions-=T
 " Set line number background
 hi LineNr guibg=bg
 
-" Set vertical split background
-hi vertsplit guifg=bg guibg=white
+set encoding=utf8
+
+" Remove split background color
+highlight VertSplit cterm=NONE
+
+" Set vertical split fill char
+" set fillchars+=vert:\▏
+set fillchars+=vert:\|
 
 " Set to not show full path on tab
 set guitablabel=%t
 
+" Remove status line
+set noshowmode " remove status line
+
+" Make the line number column wider
+set numberwidth=5
+
+" Remove pesky ~ at end of buffer
+highlight EndOfBuffer ctermfg=black ctermbg=black
+
+
 let g:airline_theme='deus'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#enabled = 1
 
 
 "-----------------------------------
@@ -122,8 +148,17 @@ nnoremap <C-TAB> :bp<CR>
 "-----------------------------------
 "            Searching             "
 "-----------------------------------
-set hlsearch
+" search as characters are entered
 set incsearch
+
+" highlight matches
+set hlsearch
+
+" ignore case when searching
+set ignorecase
+
+" ignore case if search pattern is lower case
+set smartcase
 
 
 
@@ -146,13 +181,13 @@ endfunction
 
 
 function! SaveSess()
-    execute 'mksession! $HOMEPATH/session.vim'
+    execute 'mksession! $HOME/session.vim'
 endfunction
 
 
 function! LoadSess()
-	if !empty(glob('$HOMEPATH/session.vim'))
-		execute 'so $HOMEPATH/session.vim'
+	if !empty(glob('$HOME/session.vim'))
+		execute 'so $HOME/session.vim'
 	endif
 endfunction
 
@@ -195,6 +230,9 @@ nnoremap <Leader>ev :tabedit $MYVIMRC<cr>
 
 " Turn off search highlighting
 nnoremap <Leader><space> :nohlsearch<cr>
+
+" Open directory of current file in NERDTree
+nnoremap <Leader>f :NERDTreeFind<CR><C-w><C-p>k<CR>
 
 " Allow sleamless split navigation between vim and tmux
 if exists('$TMUX')
@@ -239,6 +277,9 @@ augroup nerdtree
     autocmd VimLeave * call SaveNerdDirectory()
 
 	autocmd VimEnter * call LoadSess()
+	autocmd VimEnter * highlight EndOfBuffer ctermfg=black ctermbg=black " Remove pesky ~ at end of buffer
+	autocmd VimEnter * :AirlineRefresh
+	autocmd VimEnter * highlight VertSplit cterm=NONE
 	autocmd StdinReadPre * let s:std_in=1
 	autocmd VimEnter * call LoadNerdDirectory()
 	autocmd VimEnter * exe 'NERDTree ' . g:nerdDir | wincmd p
