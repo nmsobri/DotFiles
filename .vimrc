@@ -141,7 +141,7 @@ nnoremap <C-L> <C-W><C-L>
 "     Buffer Management            "
 "-----------------------------------
 nnoremap <TAB> :bn<CR>
-nnoremap <C-TAB> :bp<CR>
+nnoremap <S-TAB> :bp<CR>
 
 
 
