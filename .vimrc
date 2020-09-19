@@ -211,6 +211,15 @@ function! LoadNerdDirectory() abort
 endfunction
 
 
+function! TmuxOrSplitSwitch(wincmd, tmuxdir)
+	let previous_winnr = winnr()
+    silent! execute "wincmd " . a:wincmd
+
+	if previous_winnr == winnr()
+		call system("tmux select-pane -" . a:tmuxdir)
+		redraw!
+	endif
+endfunction
 
 "-----------------------------------
 "             Mappings             "
@@ -234,17 +243,8 @@ nnoremap <Leader><space> :nohlsearch<cr>
 " Open directory of current file in NERDTree
 nnoremap <Leader>f :NERDTreeFind<CR><C-w><C-p>k<CR>
 
-" Allow sleamless split navigation between vim and tmux
+" Allow seamless split navigation between vim and tmux
 if exists('$TMUX')
-  function! TmuxOrSplitSwitch(wincmd, tmuxdir)
-    let previous_winnr = winnr()
-    silent! execute "wincmd " . a:wincmd
-    if previous_winnr == winnr()
-      call system("tmux select-pane -" . a:tmuxdir)
-      redraw!
-    endif
-  endfunction
-
   let previous_title = substitute(system("tmux display-message -p '#{pane_title}'"), '\n', '', '')
   let &t_ti = "\<Esc>]2;vim\<Esc>\\" . &t_ti
   let &t_te = "\<Esc>]2;". previous_title . "\<Esc>\\" . &t_te
