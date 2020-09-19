@@ -111,8 +111,7 @@ set noshowmode " remove status line
 set numberwidth=5
 
 " Remove pesky ~ at end of buffer
-highlight EndOfBuffer ctermfg=black ctermbg=black
-
+highlight EndOfBuffer ctermfg=237
 
 let g:airline_theme='deus'
 let g:airline_powerline_fonts = 1
@@ -277,7 +276,7 @@ augroup nerdtree
     autocmd VimLeave * call SaveNerdDirectory()
 
 	autocmd VimEnter * call LoadSess()
-	autocmd VimEnter * highlight EndOfBuffer ctermfg=black ctermbg=black " Remove pesky ~ at end of buffer
+	autocmd VimEnter * highlight EndOfBuffer ctermfg=237 " Remove pesky ~ at end of buffer
 	autocmd VimEnter * :AirlineRefresh
 	autocmd VimEnter * highlight VertSplit cterm=NONE
 	autocmd StdinReadPre * let s:std_in=1
