@@ -68,5 +68,8 @@ function _G.set_terminal_keymaps()
   vim.keymap.set('t', '<A-S-j>', [[<Cmd>:resize -5<CR>]], opts)
 end
 
--- if you only want these mappings for toggle term use term://*toggleterm#* instead
+-- If you only want these mappings for toggle term use term://*toggleterm#* instead
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+-- Highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", { callback = function() vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 200 }) end })
