@@ -62,9 +62,11 @@ autocmd ColorScheme * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
 
 ]])
 
-vim.opt.shell = '"C:/Program Files/Git/bin/bash.exe"'
-vim.opt.shellcmdflag = "--login -i -c"
-vim.opt.shellxquote = ""
+local set = vim.opt
+
+set.shell = '"C:/Program Files/Git/bin/bash.exe"'
+set.shellcmdflag = "--login -i -c"
+set.shellxquote = ""
 
 -- Keybinding specifically for terminal
 function _G.set_terminal_keymaps()

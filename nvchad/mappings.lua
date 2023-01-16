@@ -112,7 +112,11 @@ M.telescope = {
 
     -- theme switcher
     ["<leader>th"] = { "<cmd> Telescope themes <CR>", "nvchad themes" },
+    ["<C-j>"] = { "<cmd> Telescope themes <CR>", "nvchad themes" },
   },
+
+  i = {
+  }
 }
 
 M.nvterm = {

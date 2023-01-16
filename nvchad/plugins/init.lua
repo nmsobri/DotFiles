@@ -1,80 +1,104 @@
 return {
 
-	["neovim/nvim-lspconfig"] = {
-		config = function()
-			require "plugins.configs.lspconfig"
-			require "custom.plugins.lspconfig"
-		end,
-	},
+    ["neovim/nvim-lspconfig"] = {
+        config = function()
+            require "plugins.configs.lspconfig"
+            require "custom.plugins.lspconfig"
+        end
+    },
 
-	["williamboman/mason.nvim"] = {
-		override_options = {
-			ensure_installed = { "gopls", "lua-language-server", "stylua",}
-		}
-	},
-	
-	["goolord/alpha-nvim"] = {
-		disable = false,
-	},
-	
-	
-	["jose-elias-alvarez/null-ls.nvim"] = {
-		after = "nvim-lspconfig",
-		config = function()
-			require "custom.plugins.null-ls"
-		end,
-	},
+    ["williamboman/mason.nvim"] = {
+        override_options = {
+            ensure_installed = {"gopls", "lua-language-server", "stylua"}
+        }
+    },
 
-	["akinsho/toggleterm.nvim"] = {
-		tag = '*',
-		config = function()
-			require("toggleterm").setup({
-				open_mapping = [[<c-\>]],
-				direction = 'float',
-				start_in_insert = false,
-				persist_mode = true,
-				shell = vim.o.shell
-			})
-		end,
-	},
+    ["goolord/alpha-nvim"] = {
+        disable = false
+    },
 
-	["kyazdani42/nvim-tree.lua"] = {
-		override_options = {
-			update_focused_file = {
-				enable = false,
-				update_cwd = false,
-			},
-			
-			view = {
-				adaptive_size = true,
-				side = "right",
-				width = 25,
-				hide_root_folder = true,
-			},
-		}
-	},
+    ["jose-elias-alvarez/null-ls.nvim"] = {
+        after = "nvim-lspconfig",
+        config = function()
+            require "custom.plugins.null-ls"
+        end
+    },
 
-	["hrsh7th/nvim-cmp"] = {
-		override_options = function()
-		local cmp = require "cmp"
+    ["akinsho/toggleterm.nvim"] = {
+        tag = '*',
+        config = function()
+            require("toggleterm").setup({
+                open_mapping = [[<c-\>]],
+                direction = 'float',
+                start_in_insert = false,
+                persist_mode = true,
+                shell = vim.o.shell
+            })
+        end
+    },
 
-		return {
-			mapping = {
-				["<C-k>"] = cmp.mapping.select_prev_item(),
-				["<C-j>"] = cmp.mapping.select_next_item(),
-			},
-		}
+    ["kyazdani42/nvim-tree.lua"] = {
+        override_options = {
+            update_focused_file = {
+                enable = false,
+                update_cwd = false
+            },
 
-		end,
-	},
+            view = {
+                adaptive_size = true,
+                side = "right",
+                width = 25,
+                hide_root_folder = true
+            }
+        }
+    },
 
-	["kevinhwang91/nvim-ufo"] = {
-		requires = 'kevinhwang91/promise-async',
+    ["hrsh7th/nvim-cmp"] = {
+        override_options = function()
+            local cmp = require "cmp"
 
-		config = function()
+            return {
+                mapping = {
+                    ["<C-k>"] = cmp.mapping.select_prev_item(),
+                    ["<C-j>"] = cmp.mapping.select_next_item()
+                }
+            }
+
+        end
+    },
+
+    ["kevinhwang91/nvim-ufo"] = {
+        requires = 'kevinhwang91/promise-async',
+
+        config = function()
             require("custom.plugins.ufo")
-		end,
+        end
 
-	},
+    },
+
+    ["nvim-telescope/telescope.nvim"] = {
+        override_options = function()
+            local action = require "telescope.actions"
+
+            return {
+                defaults = {
+                    mappings = {
+                        n = {
+                            ["kj"] = action.close,
+                            ["<C-j>"] = action.move_selection_next,
+                            ["<C-k>"] = action.move_selection_previous
+                        },
+
+                        i = {
+                            ["<C-j>"] = action.move_selection_next,
+                            ["<C-k>"] = action.move_selection_previous
+                        }
+                    }
+                }
+            }
+
+        end
+
+    }
 
 }
