@@ -4,6 +4,9 @@ vim.cmd([[
 set ttimeout
 set ttimeoutlen=100
 
+" Disable highlight when searching
+set nohlsearch
+
 " Remap in Normal mode
 nnoremap kj <ESC>
 
@@ -47,12 +50,23 @@ nnoremap <A-S-h> :vertical resize -5<CR>
 nnoremap <A-S-k> :resize +5<CR>
 nnoremap <A-S-j> :resize -5<CR>
 
+" Bind `f` to toggle fold
+nnoremap f za
+
+" Bind `f` to toggle fold recursively
+nnoremap F zA 
+
+" Disable highlight group for folded region
+autocmd VimEnter * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
+autocmd ColorScheme * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
+
 ]])
 
 vim.opt.shell = '"C:/Program Files/Git/bin/bash.exe"'
 vim.opt.shellcmdflag = "--login -i -c"
 vim.opt.shellxquote = ""
 
+-- Keybinding specifically for terminal
 function _G.set_terminal_keymaps()
   local opts = {buffer = 0}
   vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)

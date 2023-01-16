@@ -57,7 +57,7 @@ M.lspconfig = {
       "lsp hover",
     },
 
-    ["<leader>y"] = {
+    ["<leader>d"] = {
       function()
         vim.lsp.buf.type_definition()
       end,
@@ -255,6 +255,27 @@ M.gitsigns = {
         require("gitsigns").toggle_deleted()
       end,
       "Toggle deleted",
+    },
+  },
+}
+
+M.comment = {
+  plugin = true,
+
+  -- toggle comment in both modes
+  n = {
+    ["<leader>/"] = {
+      function()
+        require("Comment.api").toggle.linewise.current()
+      end,
+      "toggle comment",
+    },
+  },
+
+  v = {
+    ["<leader>/"] = {
+      "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+      "toggle comment",
     },
   },
 }
