@@ -38,6 +38,9 @@ return {
     },
 
     ["kyazdani42/nvim-tree.lua"] = {
+        requires = 'nvim-tree/nvim-web-devicons', -- optional, for file icons
+        tag = 'nightly', -- optional, updated every week. (see issue #1193)
+
         override_options = {
             update_focused_file = {
                 enable = false,
