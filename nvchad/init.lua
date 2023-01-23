@@ -1,60 +1,22 @@
 vim.cmd([[
 
-" Set timeout, how long vim will wait to interpret what we are pressing (key code, cause certain key use multiple of keys combination)
+" Set timeout, how long vim will wait to interpret (key code, cause certain key use multiple of keys combination)
 set ttimeout
 set ttimeoutlen=100
 
-" Disable highlight when searching
+
+" Set timeout, how long vim will wait to interpret what we are pressing
+set timeout
+set timeoutlen=70
+
+" -- Disable highlight when searching
 set nohlsearch
+set incsearch
 
-" Remap in Normal mode
-nnoremap kj <ESC>
+" -- Vertically center
+set scrolloff=999
 
-" Remap in Insert and Replace mode
-inoremap kj <ESC>
-
-" Remap in Visual and Select mode
-vnoremap kj <ESC>
-
-" Remap in Visual mode
-xnoremap kj <ESC>
-
-" Remap in Select mode
-snoremap kj <ESC>
-
-" Remap in Command-line mode
-cnoremap kj <C-C>
-
-" Remap in Operator pending mode
-onoremap kj <ESC>
-
-" Remap in Insert pending mode
-inoremap kl <ESC>A
-
-" Skip lines on normal mode
-nnoremap <S-j> 5j
-nnoremap <S-k> 5k
-
-" Skip lines on visual mode
-vnoremap <S-j> 5j
-vnoremap <S-k> 5k
-
-" Go back to previous location
-nnoremap <leader>k <C-O>
-
-" Resize split vertically
-nnoremap <A-S-l> :vertical resize +5<CR>
-nnoremap <A-S-h> :vertical resize -5<CR>
-
-" Resize split horizontally
-nnoremap <A-S-k> :resize +5<CR>
-nnoremap <A-S-j> :resize -5<CR>
-
-" Bind `f` to toggle fold
-nnoremap f za
-
-" Bind `f` to toggle fold recursively
-nnoremap F zA 
+set backspace=indent,eol,start
 
 " Disable highlight group for folded region
 autocmd VimEnter * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
@@ -62,11 +24,77 @@ autocmd ColorScheme * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
 
 ]])
 
+local function map(mode, lhs, rhs, opts)
+    local options = {
+        noremap = true,
+        silent = true
+    }
+    if opts then
+        options = vim.tbl_extend('force', options, opts)
+    end
+    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+vim.g.mapleader = ' '
+
+-- Remap in <ESC> Normal mode
+map('n', 'kj', '<ESC>')
+
+-- Remap in <ESC> Insert mode
+map('i', 'kj', '<ESC>')
+
+-- Remap in <ESC> Visual mode
+map('v', 'kj', '<ESC>')
+
+-- Remap in <ESC> Visual mode
+map('x', 'kj', '<ESC>')
+
+-- Remap in <ESC> Select mode
+map('s', 'kj', '<ESC>')
+
+-- Remap in <ESC> Command Line mode
+map('c', 'kj', '<C-C>')
+
+-- Remap in <ESC> Operator Pending mode
+map('o', 'kj', '<ESC>')
+
+-- Remap in <ESC> Insert Pending mode
+map('i', 'kl', '<ESC>A')
+
+-- Skip lines on normal mode
+map('n', '<S-j>', '5j')
+map('n', '<S-k>', '5k')
+
+-- Skip lines on visual mode
+map('v', '<S-j>', '5j')
+map('v', '<S-k>', '5k')
+
+-- Go back to previous location
+map('n', '<leader>k', '<C-O>')
+
+-- Resize split vertically
+map('n', '<A-S-l>', ':vertical resize +5<CR>')
+map('n', '<A-S-h>', ':vertical resize -5<CR>')
+
+-- Resize split horizontally
+map('n', '<A-S-k>', ':resize +5<CR>')
+map('n', '<A-S-j>', ':resize -5<CR>')
+
+-- Bind `f` to toggle fold
+map('n', 'f', 'za')
+
+-- Bind `f` to toggle fold recursively
+map('n', 'F', 'zA')
+
+map('n', '<F11>', ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>", {})
+
 local set = vim.opt
 
 set.shell = '"C:/Program Files/Git/bin/bash.exe"'
 set.shellcmdflag = "--login -i -c"
 set.shellxquote = ""
+
+-- Disable pesky swap file
 set.swapfile = false
 set.backup = false
 
