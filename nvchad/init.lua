@@ -7,7 +7,7 @@ set ttimeoutlen=100
 
 " Set timeout, how long vim will wait to interpret what we are pressing
 set timeout
-set timeoutlen=70
+set timeoutlen=400
 
 " -- Disable highlight when searching
 set nohlsearch
@@ -17,10 +17,6 @@ set incsearch
 set scrolloff=999
 
 set backspace=indent,eol,start
-
-" Disable highlight group for folded region
-autocmd VimEnter * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
-autocmd ColorScheme * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
 
 ]])
 
@@ -38,7 +34,7 @@ end
 vim.g.mapleader = ' '
 
 -- Remap in <ESC> Normal mode
-map('n', 'kj', '<ESC>')
+-- map('n', 'kj', '<ESC>')
 
 -- Remap in <ESC> Insert mode
 map('i', 'kj', '<ESC>')
@@ -128,3 +124,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         })
     end
 })
+
+-- Disable highlight group for folded region
+vim.cmd('autocmd VimEnter * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE')
+vim.cmd('autocmd ColorScheme * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE')
