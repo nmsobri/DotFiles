@@ -18,6 +18,13 @@ set scrolloff=999
 
 set backspace=indent,eol,start
 
+augroup remember_folds
+  autocmd!
+  let ignored_buffers = ['terminal', 'toggleterm']
+  autocmd BufWinLeave ?* if index(ignored_buffers, &buftype) < 0 | mkview 1
+  autocmd BufWinEnter ?* silent! loadview 1
+augroup END
+
 ]])
 
 local function map(mode, lhs, rhs, opts)
@@ -83,6 +90,8 @@ map('n', 'f', 'za')
 map('n', 'F', 'zA')
 
 map('n', '<F11>', ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>", {})
+
+map('n', '<leader>t', "<cmd>TodoTelescope<CR>", {})
 
 local set = vim.opt
 
