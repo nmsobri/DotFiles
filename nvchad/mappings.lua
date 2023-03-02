@@ -7,7 +7,9 @@ M.disabled = {
         ["<leader>h"] = "",
         ["<leader>n"] = "",
         ["<TAB>"] = "",
-        ["<S-Tab>"] = ""
+        ["<S-Tab>"] = "",
+        ["<A-l>"] = "",
+        ["<A-h>"] = ""
     }
 }
 
@@ -15,6 +17,44 @@ M.tabufline = {
     plugin = true,
 
     n = {
+        -- cycle through buffers
+        ["<A-l>"] = {function()
+            require("nvchad_ui.tabufline").tabuflineNext()
+        end, "goto next buffer"},
+
+        ["<A-h>"] = {function()
+            require("nvchad_ui.tabufline").tabuflinePrev()
+        end, "goto prev buffer"},
+
+        -- pick buffers via numbers
+        ["<Bslash>"] = {"<cmd> TbufPick <CR>", "Pick buffer"},
+
+        -- close buffer + hide terminal buffer
+        ["<C-x>"] = {function()
+            require("nvchad_ui.tabufline").close_buffer()
+        end, "close buffer"}
+    },
+
+    i = {
+        -- cycle through buffers
+        ["<A-l>"] = {function()
+            require("nvchad_ui.tabufline").tabuflineNext()
+        end, "goto next buffer"},
+
+        ["<A-h>"] = {function()
+            require("nvchad_ui.tabufline").tabuflinePrev()
+        end, "goto prev buffer"},
+
+        -- pick buffers via numbers
+        ["<Bslash>"] = {"<cmd> TbufPick <CR>", "Pick buffer"},
+
+        -- close buffer + hide terminal buffer
+        ["<C-x>"] = {function()
+            require("nvchad_ui.tabufline").close_buffer()
+        end, "close buffer"}
+    },
+
+    t = {
         -- cycle through buffers
         ["<A-l>"] = {function()
             require("nvchad_ui.tabufline").tabuflineNext()

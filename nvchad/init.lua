@@ -18,16 +18,20 @@ set scrolloff=999
 
 set backspace=indent,eol,start
 
+" Remember folds
 augroup remember_folds
   autocmd!
-  " view files are about 500 bytes
-  " bufleave but not bufwinleave captures closing 2nd tab
-  " nested is needed by bufwrite* (if triggered via other autocmd)
-  " BufHidden for compatibility with `set hidden`
   autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
   autocmd BufWinEnter ?* silent! loadview
 augroup end
 
+" Terminal stuff
+augroup terminal_stuff
+  autocmd!
+  autocmd TermOpen * setlocal nonumber norelativenumber
+  autocmd TermOpen, TermEnter * startnormal
+  autocmd TermLeave * stopinsert
+augroup end
 
 ]])
 
@@ -102,6 +106,9 @@ map('n', '<leader>n', '<cmd>tabnew<CR>', {})
 map('n', '<leader>c', '<cmd>tabclose<CR>', {})
 map('n', '<C-n>', ':hide enew<CR>', {})
 
+map('t', '<C-j>', ':hide enew<CR>', {})
+map('t', '<C-k>', '<Up>', {})
+
 local set = vim.opt
 
 set.shell = '"C:/Program Files/Git/bin/bash.exe"'
@@ -123,6 +130,7 @@ function _G.set_terminal_keymaps()
     local opts = {
         buffer = 0
     }
+
     vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
     vim.keymap.set('t', 'kj', [[<C-\><C-n>]], opts)
     vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
