@@ -20,10 +20,14 @@ set backspace=indent,eol,start
 
 augroup remember_folds
   autocmd!
-  let ignored_buffers = ['terminal', 'toggleterm']
-  autocmd BufWinLeave ?* if index(ignored_buffers, &buftype) < 0 | mkview 1
-  autocmd BufWinEnter ?* silent! loadview 1
-augroup END
+  " view files are about 500 bytes
+  " bufleave but not bufwinleave captures closing 2nd tab
+  " nested is needed by bufwrite* (if triggered via other autocmd)
+  " BufHidden for compatibility with `set hidden`
+  autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
+  autocmd BufWinEnter ?* silent! loadview
+augroup end
+
 
 ]])
 
@@ -89,9 +93,14 @@ map('n', 'f', 'za')
 -- Bind `f` to toggle fold recursively
 map('n', 'F', 'zA')
 
-map('n', '<F11>', ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>", {})
+map('n', '<F11>', ':let g:neovide_fullscreen = !g:neovide_fullscreen<CR>', {})
 
-map('n', '<leader>t', "<cmd>TodoTelescope<CR>", {})
+map('n', '<leader>t', '<cmd>TodoTelescope<CR>', {})
+map('n', '<TAB>', '<cmd>tabnext<CR>', {})
+map('n', '<S-Tab>', '<cmd>tabprevious<CR>', {})
+map('n', '<leader>n', '<cmd>tabnew<CR>', {})
+map('n', '<leader>c', '<cmd>tabclose<CR>', {})
+map('n', '<C-n>', ':hide enew<CR>', {})
 
 local set = vim.opt
 
@@ -102,6 +111,12 @@ set.shellxquote = ""
 -- Disable pesky swap file
 set.swapfile = false
 set.backup = false
+
+-- Highlight current line
+set.cursorline = true
+
+-- Disable show command at the bottom right corner
+set.showcmd = false
 
 -- Keybinding specifically for terminal
 function _G.set_terminal_keymaps()
@@ -137,3 +152,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- Disable highlight group for folded region
 vim.cmd('autocmd VimEnter * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE')
 vim.cmd('autocmd ColorScheme * hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE')
+
+-- Neovide specific configuration here
+if vim.g.neovide then
+    vim.g.neovide_remember_window_size = true
+end
