@@ -46,6 +46,8 @@ local function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+
 vim.g.mapleader = ' '
 
 -- Remap in <ESC> Normal mode
@@ -106,8 +108,8 @@ map('n', '<leader>n', '<cmd>tabnew<CR>', {})
 map('n', '<leader>c', '<cmd>tabclose<CR>', {})
 map('n', '<C-n>', ':hide enew<CR>', {})
 
-map('t', '<C-j>', ':hide enew<CR>', {})
-map('t', '<C-k>', '<Up>', {})
+map('n', '<leader>h', ':TbufLeft<CR>', {})
+map('n', '<leader>l', ':TbufRight<CR>', {})
 
 local set = vim.opt
 

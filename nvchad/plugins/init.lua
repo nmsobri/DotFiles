@@ -17,6 +17,16 @@ return {
         disable = false
     },
 
+    ["rmagatti/auto-session"] = {
+        config = function()
+            require("auto-session").setup {
+                bypass_session_save_file_types = {"", "alpha"},
+                log_level = "error",
+                auto_session_suppress_dirs = {"~/", "~/Projects", "~/Downloads", "/"}
+            }
+        end
+    },
+
     ["jose-elias-alvarez/null-ls.nvim"] = {
         after = "nvim-lspconfig",
         config = function()
