@@ -23,42 +23,6 @@ return {
                 bypass_session_save_file_types = {"", "blank", "alpha", "NvimTree"},
                 log_level = "error",
                 auto_session_suppress_dirs = {"~/", "~/Projects", "~/Downloads", "/"}
-
-                -- pre_save_cmds = {function()
-                --     local buffers = vim.api.nvim_list_bufs()
-                --     for _, buffer in ipairs(buffers) do
-                --         if vim.api.nvim_buf_get_name(buffer) == "" then
-                --             vim.api.nvim_command("bwipeout! " .. buffer)
-                --         end
-                --     end
-                -- end}
-
-                -- pre_save_cmds = {function()
-                --     local function has_value(tbl, val)
-                --         for index, value in ipairs(tbl) do
-                --             if value == val then
-                --                 return true
-                --             end
-                --         end
-
-                --         return false
-                --     end
-
-                --     local count = 0
-                --     local blacklist = {"", "alpha"}
-                --     local buffers = vim.api.nvim_list_bufs()
-
-                --     for _ in pairs(buffers) do
-                --         count = count + 1
-                --     end
-
-                --     print(vim.inspect(count))
-
-                --     if count == 1 and has_value(blacklist, vim.api.nvim_buf_get_name(buffers[0])) then
-                --         vim.api.cmd("NvimTreeClose")
-                --     end
-
-                -- end}
             }
         end
     },
