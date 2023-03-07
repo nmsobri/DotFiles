@@ -114,8 +114,8 @@ map('n', '<leader>l', ':TbufRight<CR>', {})
 local set = vim.opt
 
 set.shell = '"C:/Program Files/Git/bin/bash.exe"'
-set.shellcmdflag = "--login -i -c"
-set.shellxquote = ""
+set.shellcmdflag = '-c'
+set.shellxquote = ''
 
 -- Disable pesky swap file
 set.swapfile = false
