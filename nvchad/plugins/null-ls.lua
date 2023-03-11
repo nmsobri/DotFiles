@@ -1,25 +1,33 @@
 local present, null_ls = pcall(require, "null-ls")
 
 if not present then
-   return
+  return
 end
 
-local b = null_ls.builtins
+local formatting = null_ls.builtins.formatting
+local diagnostics = null_ls.builtins.diagnostics
+local code_actions = null_ls.builtins.code_actions
 
 local sources = {
-	b.formatting.gofmt,
+  diagnostics.jshint,
+  diagnostics.tidy,
+  formatting.stylua,
+  formatting.gofmt,
+  formatting.prettierd.with {
+    extra_args = { "--single-quote" },
+  },
 }
 
 null_ls.setup {
-	debug = true,
-	sources = sources,
-	
-	-- Format on save
-	on_attach = function()
-		vim.api.nvim_create_autocmd("BufWritePost", {
-			callback = function()
-				vim.lsp.buf.format()
-			end,
-		})
-	end,
+  debug = true,
+  sources = sources,
+
+  -- Format on save
+  on_attach = function()
+    vim.api.nvim_create_autocmd("BufWritePost", {
+      callback = function()
+        vim.lsp.buf.format()
+      end,
+    })
+  end,
 }

@@ -6,7 +6,7 @@ M.plugins = require "custom.plugins"
 M.mappings = require "custom.mappings"
 
 M.ui = {
-    theme = "chadracula"
+  theme = "chadracula",
 }
 
 return M
