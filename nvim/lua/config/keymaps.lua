@@ -39,34 +39,15 @@ end
 vim.g.mapleader = " "
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
 
--- Remap in <ESC> Insert mode
-map("i", "kj", "<ESC>")
+-- Remap <ESC> to `kj` in Insert, Visual, Select, Command Line, Operator Pending, Insert Pending mode
+map({ "i", "v", "x", "s", "c", "o" }, "kj", "<ESC>")
 
--- Remap in <ESC> Visual mode
-map("v", "kj", "<ESC>")
-
--- Remap in <ESC> Visual mode
-map("x", "kj", "<ESC>")
-
--- Remap in <ESC> Select mode
-map("s", "kj", "<ESC>")
-
--- Remap in <ESC> Command Line mode
-map("c", "kj", "<C-C>")
-
--- Remap in <ESC> Operator Pending mode
-map("o", "kj", "<ESC>")
-
--- Remap in <ESC> Insert Pending mode
+-- Go to end of line
 map("i", "kl", "<ESC>A")
 
--- Skip lines on normal mode
-map("n", "<S-j>", "5j")
-map("n", "<S-k>", "5k")
-
--- Skip lines on visual mode
-map("v", "<S-j>", "5j")
-map("v", "<S-k>", "5k")
+-- Skip lines on normal, visual mode
+map({ "n", "v" }, "<S-j>", "5j")
+map({ "n", "v" }, "<S-k>", "5k")
 
 -- Go back to previous location
 map("n", "<leader>k", "<C-O>")
@@ -85,8 +66,6 @@ map("n", "s", "za")
 -- Bind `f` to toggle fold recursively
 map("n", "S", "zA")
 
-map("n", "<F11>", ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>", {})
-
 map("n", "<leader>t", "<cmd>TodoTelescope<CR>")
 map("n", "<TAB>", "<cmd>tabnext<CR>")
 map("n", "<S-Tab>", "<cmd>tabprevious<CR>")
@@ -97,7 +76,12 @@ map("n", "<C-n>", ":hide enew<CR>")
 map("n", "<leader>h", ":TbufLeft<CR>")
 map("n", "<leader>l", ":TbufRight<CR>")
 
-function split_terminal_right()
+-- Comment code
+map({ "n", "i", "v" }, "<leader>/", function()
+  vim.cmd([[normal gcc]])
+end)
+
+local function split_terminal_right()
   local Terminal = require("toggleterm.terminal").Terminal
 
   Terminal:new({
