@@ -90,4 +90,4 @@ local function split_terminal_right()
 end
 
 vim.api.nvim_create_user_command("SplitTerminal", split_terminal_right, {})
-vim.keymap.set({ "n", "i" }, "<A-j>", "<cmd>SplitTerminal<cr>")
+vim.keymap.set({ "n", "i", "t" }, "<A-j>", "<cmd>SplitTerminal<cr>")
