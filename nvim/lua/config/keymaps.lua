@@ -37,7 +37,7 @@ else
 end
 
 vim.g.mapleader = " "
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions,globals"
 
 -- Remap <ESC> to `kj` in Insert, Visual, Select, Command Line, Operator Pending, Insert Pending mode
 map({ "i", "v", "x", "s", "c", "o" }, "kj", "<ESC>")

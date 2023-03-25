@@ -3,8 +3,13 @@ return {
     "folke/persistence.nvim",
     enabled = false,
   },
+  -- {
+  --   "nvim-neo-tree/neo-tree.nvim",
+  --   enabled = false,
+  -- },
+
   {
-    "rmagatti/auto-session",
+    "nvim-tree/nvim-tree.lua",
     enabled = false,
   },
 }

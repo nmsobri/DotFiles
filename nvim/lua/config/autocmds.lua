@@ -37,6 +37,12 @@ set nofoldenable
 set scrolloff=999
 
 set backspace=indent,eol,start
+
+" Hack to attach Lsp
+augroup attach_lsp
+  autocmd!
+  autocmd BufEnter * doautocmd FileType
+augroup end
 ]])
 
 local function augroup(name)
@@ -59,6 +65,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "startuptime",
     "tsplayground",
     "toggleterm",
+    "Trouble",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
