@@ -18,6 +18,9 @@ opt.backup = false
 -- Highlight current line
 opt.cursorline = true
 
+-- Disable relative number. I hate it
+opt.relativenumber = false
+
 -- Disable show command at the bottom right corner
 opt.showcmd = false
 vim.o.shada = [[!,'1000,<10000,s500,:100,/100,h]]
