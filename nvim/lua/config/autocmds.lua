@@ -1,8 +1,6 @@
 -- Keybinding specifically for terminal
 function _G.set_terminal_keymaps()
-  local opts = {
-    buffer = 0,
-  }
+  local opts = { buffer = 0 }
 
   vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
   vim.keymap.set("t", "kj", [[<C-\><C-n>]], opts)
@@ -84,5 +82,3 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- If you only want these mappings for toggle term use term://*toggleterm#* instead
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
-
-vim.cmd("hi! Folded ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE")
