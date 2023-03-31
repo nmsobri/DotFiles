@@ -1,6 +1,6 @@
 local function wipeout_buffer()
   local buffers = vim.api.nvim_list_bufs()
-  local buffer_wipeout_type_list = { "Trouble" }
+  local buffer_wipeout_type_list = { "Trouble", "alpha" }
 
   for _, current_buffer in ipairs(buffers) do
     local buf_ft = vim.api.nvim_buf_get_option(current_buffer, "filetype")

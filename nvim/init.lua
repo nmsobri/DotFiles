@@ -16,6 +16,7 @@ vim.api.nvim_create_autocmd({ "VimEnter", "Colorscheme", "BufReadPre", "BufNewFi
   end,
 })
 
+-- Remember folds
 vim.cmd([[
 " Remember folds
 augroup remember_folds
