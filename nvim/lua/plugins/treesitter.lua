@@ -14,7 +14,20 @@ return {
         enable = true,
         enable_autocmd = false,
       },
-      ensure_installed = { "help", "html", "css", "javascript", "typescript", "json", "lua", "luap", "regex", "go" },
+      ensure_installed = {
+        "v",
+        "html",
+        "css",
+        "javascript",
+        "typescript",
+        "json",
+        "lua",
+        "luap",
+        "regex",
+        "go",
+        "markdown",
+        "markdown_inline",
+      },
       incremental_selection = {
         enable = true,
         keymaps = {

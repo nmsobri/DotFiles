@@ -23,6 +23,7 @@ return {
       -- All the servers we want
       ---@type lspconfig.options
       servers = {
+        vls = {},
         gopls = {},
         tsserver = {},
         html = {},
@@ -58,8 +59,8 @@ return {
 
     init = function()
       local keys = require("lazyvim.plugins.lsp.keymaps").get()
-      -- disable a keymap
-      keys[#keys + 1] = { "K", false }
+      keys[#keys + 1] = { "K", false } -- disable a keymap
+      keys[#keys + 1] = { "gd", false } -- disable a keymap
     end,
   },
 }

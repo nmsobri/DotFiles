@@ -77,7 +77,7 @@ map("n", "<leader>h", ":TbufLeft<CR>")
 map("n", "<leader>l", ":TbufRight<CR>")
 
 -- Comment code
-map({ "n", "i", "v" }, "<leader>/", function()
+map({ "n", "v" }, "<leader>/", function()
   vim.cmd([[normal gcc]])
 end)
 

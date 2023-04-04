@@ -3,6 +3,7 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
+        "vls",
         "gopls",
         "lua-language-server",
         "stylua",

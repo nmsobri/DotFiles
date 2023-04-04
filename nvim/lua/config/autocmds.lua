@@ -41,6 +41,20 @@ augroup attach_lsp
   autocmd!
   autocmd BufEnter * doautocmd FileType
 augroup end
+
+" Terminal configuration
+augroup terminal_stuff
+  autocmd!
+  autocmd TermOpen * setlocal nonumber norelativenumber
+  autocmd TermOpen, TermEnter * startnormal
+  autocmd TermLeave * stopinsert
+augroup end
+
+" If you only want these mappings for toggle term use term://*toggleterm#* instead
+autocmd! TermOpen term://* lua set_terminal_keymaps()
+
+autocmd! BufNewFile,BufRead *.v set filetype=vlang
+
 ]])
 
 local function augroup(name)
@@ -50,7 +64,7 @@ local function augroup(name)
 end
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("close_with_q_kj"),
+  group = augroup("close_with_q"),
   pattern = {
     "PlenaryTestPopup",
     "help",
@@ -72,13 +86,5 @@ vim.api.nvim_create_autocmd("FileType", {
       buffer = event.buf,
       silent = true,
     })
-
-    vim.keymap.set("n", "kj", "<cmd>close<cr>", {
-      buffer = event.buf,
-      silent = true,
-    })
   end,
 })
-
--- If you only want these mappings for toggle term use term://*toggleterm#* instead
-vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")

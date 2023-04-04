@@ -11,6 +11,12 @@ opt.shell = '"C:/Program Files/Git/bin/bash.exe"'
 opt.shellcmdflag = "-c"
 opt.shellxquote = ""
 
+-- set tab width
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.expandtab = true
+vim.bo.softtabstop = 2
+
 -- Disable pesky swap file
 opt.swapfile = false
 opt.backup = false
@@ -23,4 +29,6 @@ opt.relativenumber = false
 
 -- Disable show command at the bottom right corner
 opt.showcmd = false
+
+-- Shada configuration
 vim.o.shada = [[!,'1000,<10000,s500,:100,/100,h]]
