@@ -14,6 +14,19 @@ return {
           respect_root = false,
           color_mode = true,
         },
+        preview = {
+          lines_above = 0,
+          lines_below = 10,
+        },
+        definition = {
+          height = 0.7,
+          width = 0.7,
+          edit = "<C-c>o",
+          vsplit = "<C-c>v",
+          split = "<C-c>i",
+          tabe = "<C-c>t",
+          quit = "q",
+        },
       })
     end,
     dependencies = {
@@ -40,8 +53,9 @@ return {
       -- It also supports open/vsplit/etc operations, do refer to "definition_action_keys"
       -- It also supports tagstack
       -- Use <C-t> to jump back
-      { "<leader>gd", "<cmd>Lspsaga peek_definition ++keep<CR>", mode = { "n" } },
+      { "gd", "<cmd>Lspsaga goto_definition<CR>", mode = { "n" } },
       { "<leader>j", "<cmd>Lspsaga peek_definition ++keep<CR>", mode = { "n" } },
+      { "<leader>J", "<cmd>Lspsaga lsp_finder ++keep<CR>", mode = { "n" } },
 
       -- Peek type definition
       -- You can edit the file containing the type definition in the floating window

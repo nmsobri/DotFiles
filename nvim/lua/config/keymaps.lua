@@ -60,12 +60,6 @@ map("n", "<A-S-h>", ":vertical resize -5<CR>")
 map("n", "<A-S-k>", ":resize +5<CR>")
 map("n", "<A-S-j>", ":resize -5<CR>")
 
--- Bind `f` to toggle fold
-map("n", "s", "za")
-
--- Bind `f` to toggle fold recursively
-map("n", "S", "zA")
-
 map("n", "<leader>t", "<cmd>TodoTelescope<CR>")
 map("n", "<TAB>", "<cmd>tabnext<CR>")
 map("n", "<S-Tab>", "<cmd>tabprevious<CR>")
@@ -91,3 +85,20 @@ end
 
 vim.api.nvim_create_user_command("SplitTerminal", split_terminal_right, {})
 vim.keymap.set({ "n", "i", "t" }, "<A-j>", "<cmd>SplitTerminal<cr>")
+
+-- Workaround for vanished indent guides when folding
+vim.api.nvim_set_keymap("n", "zm", "zM" .. "<CMD>IndentBlanklineRefresh<CR>", { noremap = true, silent = true }) --close folds recursively
+vim.api.nvim_set_keymap("n", "zr", "zR" .. "<CMD>IndentBlanklineRefresh<CR>", { noremap = true, silent = true }) --open folds recursively
+vim.api.nvim_set_keymap("n", "s", "za" .. "<CMD>IndentBlanklineRefresh<CR>", { noremap = true, silent = true }) --toggle folds for current level
+vim.api.nvim_set_keymap("n", "S", "zA" .. "<CMD>IndentBlanklineRefresh<CR>", { noremap = true, silent = true }) --toggle folds to its parent
+
+vim.keymap.set("n", "Z", function()
+  if vim.o.foldlevel == 0 then
+    vim.cmd([[normal! zR]])
+  else
+    vim.cmd([[normal! zM]])
+  end
+
+  foldlevel = vim.o.foldlevel
+  require("indent_blankline.commands").refresh(true)
+end)

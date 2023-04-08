@@ -4,27 +4,9 @@ return {
   event = "BufRead",
 
   keys = {
-    {
-      "zr",
-      function()
-        require("ufo").openAllFolds()
-      end,
-    },
-    {
-      "zm",
-      function()
-        require("ufo").closeAllFolds()
-      end,
-    },
-    {
-      "zp",
-      function()
-        local winid = require("ufo").peekFoldedLinesUnderCursor()
-        if not winid then
-          vim.lsp.buf.hover()
-        end
-      end,
-    },
+    { "zr", false },
+    { "zm", false },
+    { "zp", false },
   },
 
   config = function()

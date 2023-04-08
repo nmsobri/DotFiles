@@ -1,18 +1,35 @@
 return {
   {
     "catppuccin/nvim",
-    lazy = true,
-    name = "catppuccin",
+    lazy = false,
+  },
+  {
+    "navarasu/onedark.nvim",
+    lazy = false,
+    opts = {
+      style = "deep",
+    },
+  },
+  {
+    "ellisonleao/gruvbox.nvim",
+    lazy = false,
   },
   {
     "folke/tokyonight.nvim",
-    lazy = true,
-    opts = { style = "moon" },
+    lazy = false,
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    lazy = false,
+  },
+  {
+    "EdenEast/nightfox.nvim",
+    lazy = false,
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "onedark",
     },
   },
 }

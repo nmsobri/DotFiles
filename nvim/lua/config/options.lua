@@ -30,5 +30,12 @@ opt.relativenumber = false
 -- Disable show command at the bottom right corner
 opt.showcmd = false
 
+-- Hide stupid whitespace character.. Who want to see them?
+-- vim.opt.list = false
+
 -- Shada configuration
 vim.o.shada = [[!,'1000,<10000,s500,:100,/100,h]]
+
+vim.cmd([[
+set listchars=tab:\ \ ,
+]])

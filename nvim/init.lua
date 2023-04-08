@@ -18,7 +18,6 @@ vim.api.nvim_create_autocmd({ "VimEnter", "Colorscheme", "BufReadPre", "BufNewFi
 
 -- Remember folds
 vim.cmd([[
-" Remember folds
 augroup remember_folds
   autocmd!
   autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
